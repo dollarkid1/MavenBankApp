@@ -1,5 +1,6 @@
 package com.maven.bank.services;
 
+import com.maven.bank.datastore.LoanStatus;
 import com.maven.bank.entities.Account;
 import com.maven.bank.entities.Customer;
 import com.maven.bank.datastore.AccountType;
@@ -22,5 +23,8 @@ public interface AccountService {
     public Account findAccount(Customer customer, long accountNumber) throws MavenBankException;
 
     BigDecimal withdraw(BigDecimal amount, long accountNumber, String pin) throws MavenBankInsufficientFundsException, MavenBankException;
+
     public void applyForOverdraft(Account theAccount);
+
+    public LoanStatus applyForLoans(Account theAccount);
 }

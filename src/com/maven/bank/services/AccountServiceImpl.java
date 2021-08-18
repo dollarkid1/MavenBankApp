@@ -1,5 +1,6 @@
 package com.maven.bank.services;
 
+import com.maven.bank.datastore.LoanStatus;
 import com.maven.bank.entities.Account;
 import com.maven.bank.entities.CurrentAccount;
 import com.maven.bank.entities.Customer;
@@ -120,6 +121,11 @@ public class AccountServiceImpl implements AccountService{
     @Override
     public void applyForOverdraft(Account theAccount) {
         //TODO
+    }
+
+    @Override
+    public LoanStatus applyForLoans(Account theAccount) {
+    return null;
     }
 
     public BigDecimal debitAccount(BigDecimal amount, long accountNumber) throws MavenBankException {

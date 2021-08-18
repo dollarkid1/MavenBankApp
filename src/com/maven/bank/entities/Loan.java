@@ -55,7 +55,7 @@ public class Loan {
         this.tenor = tenor;
     }
 
-    public double getInterestRate() {
+    public double getInterestRate(double v) {
         return interestRate;
     }
 

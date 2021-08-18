@@ -32,10 +32,10 @@ public class CustomerRepo {
         john.setFirstName ("john");
         john.setSurname ("doe");
         john.setPhone ("12345678901");
-        Account johnSavingsAccount = new SavingsAccount  (0000110001);
+        Account johnSavingsAccount = new SavingsAccount  (1000110001);
 
         john.getAccounts ().add (johnSavingsAccount);
-        Account johnCurrentAccount = new CurrentAccount ( 0000110002);
+        Account johnCurrentAccount = new CurrentAccount ( 1000110002, new BigDecimal (50000000));
         john.getAccounts ().add (johnCurrentAccount);
         customers.put (john.getBvn (), john);
 
@@ -46,7 +46,7 @@ public class CustomerRepo {
         jane.setSurname ("blackie");
         jane.setPhone ("90876543211");
 
-        Account janeSavingsAccount = new SavingsAccount ( 0000110003 );
+        Account janeSavingsAccount = new SavingsAccount ( 1000110003 );
         jane.getAccounts ().add (janeSavingsAccount);
         customers.put (jane.getBvn (), jane);
     }

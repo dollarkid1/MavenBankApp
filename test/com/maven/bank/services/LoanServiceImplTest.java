@@ -26,7 +26,7 @@ class LoanServiceImplTest {
         accountService = new AccountServiceImpl ( );
         loanService = new LoanServiceImpl ();
         johnLoan = new Loan ();
-        johnLoan.setLoanAmount (BigDecimal.valueOf (5000000));
+        johnLoan.setLoanAmount (BigDecimal.valueOf (9000000));
         johnLoan.setApplyDate (LocalDateTime.now());
         johnLoan.getInterestRate (0.1);
         johnLoan.setStatus (LoanStatus.NEW);
@@ -52,12 +52,12 @@ class LoanServiceImplTest {
     @Test
     void approveLoan(){
         try{
-            Account johnCurrentsAccount = accountService.findAccount (0000110002);
-            assertNull (johnCurrentsAccount.getAccountLoan ());
-            johnCurrentsAccount.setAccountLoan (johnLoan);
-            LoanStatus decision = accountService.applyForLoans (johnCurrentsAccount);
-            Loan processedLoan = loanService.approveLoan (johnCurrentsAccount);
-            assertNotNull (decision);
+            Account johnCurrentAccount = accountService.findAccount (1000110002);
+            assertNull (johnCurrentAccount.getAccountLoan ());
+            johnCurrentAccount.setAccountLoan (johnLoan);
+
+            Loan processedLoan = loanService.approveLoan (johnCurrentAccount);
+            assertEquals (LoanStatus.APPROVED, processedLoan.getStatus ());
         } catch (MavenBankException e) {
             e.printStackTrace ( );
         }

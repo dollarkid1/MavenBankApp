@@ -1,32 +1,18 @@
-package com.maven.bank;
+package com.maven.bank.entities;
 
 import com.maven.bank.datastore.AccountType;
 import com.maven.bank.exceptions.MavenBankTransactionException;
 
 import java.math.BigDecimal;
 
-public class Account {
+public abstract class Account {
     private long accountNumber;
-    private AccountType type;
-    private AccountType typeOfAccount;
+//    private AccountType type;
+//    private AccountType typeOfAccount;
     private BigDecimal balance = BigDecimal.ZERO;
     private String pin;
     private static String accountPin;
-
-    public Account (){}
-
-    public Account(long accountNumber, AccountType type){
-
-        this.accountNumber = accountNumber;
-        this.type = type;
-    }
-
-    public Account(long accountNumber, AccountType type, BigDecimal balance) {
-        this(accountNumber, type);
-        this.balance = balance;
-        this.pin = pin;
-    }
-
+    private Loan accountLoan;
 
 
     public long getAccountNumber() {
@@ -37,13 +23,13 @@ public class Account {
         this.accountNumber = accountNumber;
     }
 
-    public AccountType getTypeOfAccount() {
-        return typeOfAccount;
-    }
+//    public AccountType getTypeOfAccount() {
+//        return typeOfAccount;
+//    }
 
-    public void setTypeOfAccount(AccountType typeOfAccount) {
-        this.typeOfAccount = typeOfAccount;
-    }
+//    public void setTypeOfAccount(AccountType typeOfAccount) {
+//        this.typeOfAccount = typeOfAccount;
+//    }
 
     public BigDecimal getBalance() {
         return balance;
@@ -69,5 +55,13 @@ public class Account {
         if (!accountPin.equals (pin)){
             throw new MavenBankTransactionException ( "invalid pin please enter the correct pin" );
         }
+    }
+
+    public Loan getAccountLoan() {
+        return accountLoan;
+    }
+
+    public void setAccountLoan(Loan accountLoan) {
+        this.accountLoan = accountLoan;
     }
 }

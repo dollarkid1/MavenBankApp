@@ -1,7 +1,6 @@
-package com.maven.bank;
+package com.maven.bank.entities;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 public class Customer {

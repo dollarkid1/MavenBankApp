@@ -54,12 +54,12 @@ class AccountServiceImplTest {
     void openSavingsAccount(){
 
         assertTrue(abu.getAccounts ().isEmpty ());
-        assertEquals (0000110003, BankService.getCurrentAccountNumber());
+        assertEquals (1000110003, BankService.getCurrentAccountNumber());
         try {
             long newAccountNumber = accountService.openAccount (abu, AccountType.SAVINGSACCOUNT);
             assertFalse (CustomerRepo.getCustomers ( ).isEmpty ( ));
 
-            assertEquals (0000110004, BankService.getCurrentAccountNumber ( ));
+            assertEquals (1000110004, BankService.getCurrentAccountNumber ( ));
 
             assertTrue (CustomerRepo.getCustomers ( ).containsKey (abu.getBvn ( )));
             assertFalse (abu.getAccounts ( ).isEmpty ( ));
@@ -81,14 +81,14 @@ class AccountServiceImplTest {
         Optional<Customer> johnOptional = CustomerRepo.getCustomers ().values ().stream ().findFirst ();
         Customer john = johnOptional.get ();
 
-        assertEquals (0000110003, BankService.getCurrentAccountNumber ( ));
+        assertEquals (1000110003, BankService.getCurrentAccountNumber ( ));
         assertNotNull (john);
         assertNotNull (john.getAccounts ());
         assertFalse (john.getAccounts ( ).isEmpty ( ));
         assertEquals (AccountType.SAVINGSACCOUNT.toString (), john.getAccounts ( ).get (0).getClass ().getSimpleName ().toUpperCase());
 
         assertThrows (MavenBankException.class, ()-> accountService.openAccount (john, AccountType.SAVINGSACCOUNT));
-        assertEquals (0000110003,BankService.getCurrentAccountNumber ());
+        assertEquals (1000110003,BankService.getCurrentAccountNumber ());
         assertEquals (2, john.getAccounts ().size ());
     }
 
@@ -96,10 +96,10 @@ class AccountServiceImplTest {
     void openAccountForCurrentAccount(){
 
         assertTrue(abu.getAccounts ().isEmpty ());
-        assertEquals (0000110003, BankService.getCurrentAccountNumber());
+        assertEquals (1000110003, BankService.getCurrentAccountNumber());
         try {
             long newAccountNumber = accountService.openAccount (abu, AccountType.CURRENTACCOUNT);
-            assertEquals (0000110004, BankService.getCurrentAccountNumber ( ));
+            assertEquals (1000110004, BankService.getCurrentAccountNumber ( ));
             assertTrue (CustomerRepo.getCustomers ( ).containsKey (abu.getBvn ( )));
             assertFalse (abu.getAccounts ( ).isEmpty ( ));
             assertEquals (newAccountNumber, abu.getAccounts ( ).get (0).getAccountNumber ( ));
@@ -113,13 +113,13 @@ class AccountServiceImplTest {
     void openDifferentTypeOfAccountForTheSameCustomer(){
         try{
             long newAccountNumber = accountService.openAccount (abu, AccountType.SAVINGSACCOUNT);
-            assertEquals (0000110004, BankService.getCurrentAccountNumber ( ));
+            assertEquals (1000110004, BankService.getCurrentAccountNumber ( ));
             assertTrue (CustomerRepo.getCustomers ( ).containsKey (abu.getBvn ( )));
             assertEquals (1, abu.getAccounts ().size ());
             assertEquals (newAccountNumber, abu.getAccounts ( ).get (0).getAccountNumber ( ));
 
             newAccountNumber = accountService.openAccount (abu, AccountType.CURRENTACCOUNT);
-            assertEquals (0000110005, BankService.getCurrentAccountNumber ( ));
+            assertEquals (1000110005, BankService.getCurrentAccountNumber ( ));
             assertEquals (2, abu.getAccounts ().size ());
             assertEquals (newAccountNumber, abu.getAccounts ().get (1).getAccountNumber ());
 
@@ -133,18 +133,18 @@ class AccountServiceImplTest {
     void openSavingsAccountForANewCustomer(){
 
         assertTrue(abu.getAccounts ().isEmpty ());
-        assertEquals (0000110003, BankService.getCurrentAccountNumber());
+        assertEquals (1000110003, BankService.getCurrentAccountNumber());
         try {
             long newAccountNumber = accountService.openAccount (abu, AccountType.SAVINGSACCOUNT);
             assertFalse (CustomerRepo.getCustomers ( ).isEmpty ( ));
-            assertEquals (0000110004, BankService.getCurrentAccountNumber ( ));
+            assertEquals (1000110004, BankService.getCurrentAccountNumber ( ));
             assertTrue (CustomerRepo.getCustomers ( ).containsKey (abu.getBvn ( )));
             assertFalse (abu.getAccounts ( ).isEmpty ( ));
             assertEquals (newAccountNumber, abu.getAccounts ( ).get (0).getAccountNumber ( ));
 
             newAccountNumber = accountService.openAccount (bessie, AccountType.SAVINGSACCOUNT);
             assertEquals (4, CustomerRepo.getCustomers ().size ());
-            assertEquals (0000110005, BankService.getCurrentAccountNumber ( ));
+            assertEquals (1000110005, BankService.getCurrentAccountNumber ( ));
             assertTrue (CustomerRepo.getCustomers ( ).containsKey (bessie.getBvn ( )));
             assertFalse (bessie.getAccounts ( ).isEmpty ( ));
             assertEquals (1, bessie.getAccounts ().size ());
@@ -159,12 +159,12 @@ class AccountServiceImplTest {
     @Test
     void deposit(){
         try{
-            Account johnSavingsAccount = accountService.findAccount (0000110001);
+            Account johnSavingsAccount = accountService.findAccount (1000110001);
             assertEquals (BigDecimal.ZERO, johnSavingsAccount.getBalance ());
 
-            BigDecimal accountBalance = accountService.deposit (new BigDecimal (50000), 0000110001);
+            BigDecimal accountBalance = accountService.deposit (new BigDecimal (50000), 1000110001);
 
-            johnSavingsAccount = accountService.findAccount (0000110001);
+            johnSavingsAccount = accountService.findAccount (1000110001);
             assertEquals (accountBalance, johnSavingsAccount.getBalance ());
         } catch (MavenBankTransactionException ex) {
             ex.printStackTrace ( );
@@ -190,13 +190,13 @@ class AccountServiceImplTest {
     @Test
     void depositWithVeryLargeAmount(){
         try{
-            Account johnSavingsAccount = accountService.findAccount (0000110001);
+            Account johnSavingsAccount = accountService.findAccount (1000110001);
             assertEquals (BigDecimal.ZERO, johnSavingsAccount.getBalance ());
             BigDecimal depositAmount = new BigDecimal ("10000000000000000000");
 
-            BigDecimal accountBalance = accountService.deposit (depositAmount, 0000110001);
+            BigDecimal accountBalance = accountService.deposit (depositAmount, 1000110001);
 
-            johnSavingsAccount = accountService.findAccount (0000110001);
+            johnSavingsAccount = accountService.findAccount (1000110001);
             assertEquals (depositAmount, johnSavingsAccount.getBalance ());
         } catch (MavenBankTransactionException ex) {
             ex.printStackTrace ( );
@@ -210,9 +210,9 @@ class AccountServiceImplTest {
     @Test
     void findAccount(){
         try{
-            Account johnCurrentAccount = accountService.findAccount (0000110002);
+            Account johnCurrentAccount = accountService.findAccount (1000110002);
             assertNotNull (johnCurrentAccount);
-            assertEquals (0000110002,johnCurrentAccount.getAccountNumber ());
+            assertEquals (1000110002,johnCurrentAccount.getAccountNumber ());
         }catch (MavenBankException ex){
             ex.printStackTrace ();
         }
@@ -231,18 +231,18 @@ class AccountServiceImplTest {
     @Test
     void Withdraw(){
         try{
-            Account johnSavingsAccount = accountService.findAccount (0000110001);
+            Account johnSavingsAccount = accountService.findAccount (1000110001);
             assertEquals (BigDecimal.ZERO, johnSavingsAccount.getBalance ());
 
-            BigDecimal accountBalance = accountService.deposit (new BigDecimal (50000), 0000110001);
-            johnSavingsAccount = accountService.findAccount (0000110001);
+            BigDecimal accountBalance = accountService.deposit (new BigDecimal (50000), 1000110001);
+            johnSavingsAccount = accountService.findAccount (1000110001);
             assertEquals (accountBalance, johnSavingsAccount.getBalance ());
 
             johnSavingsAccount.setAccountPin ("0147");
             assertEquals ("0147", johnSavingsAccount.getAccountPin ());
 
-            BigDecimal newAccountBalance = accountService.withdraw(new BigDecimal (5000), 0000110001, johnSavingsAccount.getAccountPin ());
-            johnSavingsAccount = accountService.findAccount (0000110001);
+            BigDecimal newAccountBalance = accountService.withdraw(new BigDecimal (5000), 1000110001, johnSavingsAccount.getAccountPin ());
+            johnSavingsAccount = accountService.findAccount (1000110001);
             assertEquals (new BigDecimal (45000), johnSavingsAccount.getBalance ());
 
         } catch (MavenBankTransactionException ex) {
@@ -255,27 +255,27 @@ class AccountServiceImplTest {
     @Test
     void withdrawNegativeAmount() throws MavenBankException {
         assertThrows (MavenBankException.class,
-                () -> accountService.withdraw(new BigDecimal (-5000), 0000110001, Account.getAccountPin ()));
+                () -> accountService.withdraw(new BigDecimal (-5000), 1000110001, Account.getAccountPin ()));
     }
 
     @Test
     void withdrawFromAnInvalidAccount() throws MavenBankException {
-        assertThrows (MavenBankInsufficientFundsException.class,
-                () -> accountService.withdraw(new BigDecimal (5000), 00110001, Account.getAccountPin ()));
+        assertThrows (MavenBankTransactionException.class,
+                () -> accountService.withdraw(new BigDecimal (5000), 10110001, Account.getAccountPin ()));
     }
 
     @Test
     void withdrawAmountHigherThanAccountBalance() throws MavenBankException {
         try{
-            Account johnSavingsAccount = accountService.findAccount (0000110001);
-            BigDecimal accountBalance = accountService.deposit (new BigDecimal (50000), 0000110001);
-            johnSavingsAccount = accountService.findAccount (0000110001);
+            Account johnSavingsAccount = accountService.findAccount (1000110001);
+            BigDecimal accountBalance = accountService.deposit (new BigDecimal (50000), 1000110001);
+            johnSavingsAccount = accountService.findAccount (1000110001);
             assertEquals (accountBalance, johnSavingsAccount.getBalance ());
         } catch (MavenBankException e) {
             e.printStackTrace ( );
         }
         assertThrows (MavenBankInsufficientFundsException.class,
-                () -> accountService.withdraw(new BigDecimal (70000), 0000110001, Account.getAccountPin ()));
+                () -> accountService.withdraw(new BigDecimal (70000), 1000110001, Account.getAccountPin ()));
     }
 
     @Test
@@ -289,12 +289,12 @@ class AccountServiceImplTest {
         johnLoan.setTypeOfLoan (LoanType.SME);
 
         try{
-            Account johnCurrentsAccount = accountService.findAccount (0000110002);
+            Account johnCurrentsAccount = accountService.findAccount (1000110002);
             assertNull (johnCurrentsAccount.getAccountLoan ());
             johnCurrentsAccount.setAccountLoan (johnLoan);
             assertNotNull (johnCurrentsAccount.getAccountLoan ());
             LoanStatus decision = accountService.applyForLoans (johnCurrentsAccount);
-            assertNotNull (decision);
+            assertNull (decision);
         } catch (MavenBankException e) {
             e.printStackTrace ( );
         }

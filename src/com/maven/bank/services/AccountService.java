@@ -1,5 +1,6 @@
 package com.maven.bank.services;
 
+import com.maven.bank.datastore.BankTransactionType;
 import com.maven.bank.datastore.LoanRequestStatus;
 import com.maven.bank.entities.Account;
 import com.maven.bank.entities.BankTransaction;
@@ -26,7 +27,7 @@ public interface AccountService {
 
     public Account findAccount(Customer customer, long accountNumber) throws MavenBankException;
 
-    BigDecimal withdraw(BigDecimal amount, long accountNumber, String pin) throws MavenBankInsufficientFundsException, MavenBankException;
+    BigDecimal withdraw(BigDecimal amount, long accountNumber) throws MavenBankInsufficientFundsException, MavenBankTransactionException, MavenBankException;
 
     public void applyForOverdraft(Account theAccount);
 
@@ -34,7 +35,7 @@ public interface AccountService {
 
     public LocalDateTime openingYear(Account theAccount, LocalDate year);
 
-    public void addBankTransaction(BankTransaction transaction, Account account) throws MavenBankTransactionException;
+    public void addBankTransaction(BankTransaction transaction, Account account) throws MavenBankException;
 
 
 }

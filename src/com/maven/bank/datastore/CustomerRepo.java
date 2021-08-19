@@ -1,6 +1,8 @@
 package com.maven.bank.datastore;
 
 import com.maven.bank.entities.*;
+import com.maven.bank.exceptions.MavenBankException;
+import com.maven.bank.services.AccountService;
 import com.maven.bank.services.BankService;
 
 import java.math.BigDecimal;
@@ -19,11 +21,13 @@ public class CustomerRepo {
         this.customers = customers;
     }
 
+
+
     static{
         reset ();
     }
 
-    public static void reset() {
+    public static void reset()  {
         Customer john = new Customer ();
         john.setBvn (BankService.generateBvn ());
         john.getEmail ("john@doe.com");
@@ -33,16 +37,20 @@ public class CustomerRepo {
         Account johnSavingsAccount = new SavingsAccount  (1000110001);
         john.setRelationshipStartDate (johnSavingsAccount.getStartDate ());
         BankTransaction initialDeposit = new BankTransaction (BankTransactionType.DEPOSIT, BigDecimal.valueOf (300000));
+        johnSavingsAccount.getTransactions ().add (initialDeposit);
 
         BankTransaction mayAllowance = new BankTransaction (BankTransactionType.DEPOSIT, BigDecimal.valueOf (50000));
         mayAllowance.setDateTime (LocalDateTime.now().minusMonths (3));
-
+        johnSavingsAccount.getTransactions ().add (mayAllowance);
 
         BankTransaction juneAllowance = new BankTransaction (BankTransactionType.DEPOSIT, BigDecimal.valueOf (50000));
         juneAllowance.setDateTime (LocalDateTime.now().minusMonths (2));
+        johnSavingsAccount.getTransactions ().add (juneAllowance);
 
         BankTransaction julyAllowance = new BankTransaction (BankTransactionType.DEPOSIT, BigDecimal.valueOf (50000));
         julyAllowance.setDateTime (LocalDateTime.now().minusMonths (1));
+        johnSavingsAccount.getTransactions ().add (julyAllowance);
+        johnSavingsAccount.setBalance (BigDecimal.valueOf (450000));
 
         john.getAccounts ().add (johnSavingsAccount);
         Account johnCurrentAccount = new CurrentAccount ( 1000110002, new BigDecimal (50000000));

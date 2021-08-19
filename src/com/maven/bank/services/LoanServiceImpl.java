@@ -25,7 +25,14 @@ public class LoanServiceImpl implements LoanService{
 
     @Override
     public LoanRequest approveLoanRequest(Account accountSeekingLoan, Customer customer) throws MavenBankLoanException {
-        return approveLoanRequest (accountSeekingLoan);
+        LoanRequestStatus decision =  decideOnLoanRequestWithTotalCustomerBalance (customer, accountSeekingLoan);
+        LoanRequest theLoanRequest = accountSeekingLoan.getAccountLoanRequest ();
+        theLoanRequest.setStatus (decision);
+
+        if(decision != LoanRequestStatus.APPROVED){
+           theLoanRequest = approveLoanRequest (accountSeekingLoan);
+        }
+        return theLoanRequest;
     }
 
     public LoanRequestStatus decideOnLoanRequest(Account accountSeekingLoan) throws MavenBankLoanException {
@@ -47,8 +54,22 @@ public class LoanServiceImpl implements LoanService{
         return decision;
     }
 
-    public LoanRequestStatus decideOnLoanRequestWithLengthOfRelationship(Account accountSeekingLoan) throws MavenBankLoanException {
+
+    public LoanRequestStatus decideOnLoanRequestWithTotalCustomerBalance(Customer customer, Account accountSeekingLoan) throws MavenBankLoanException {
         LoanRequestStatus decision = LoanRequestStatus.PENDING;
+        BigDecimal relationshipVolumePercentage = BigDecimal.valueOf (0.2);
+
+        BigDecimal totalCustomerBalance = BigDecimal.ZERO;
+        if (customer.getAccounts ().size () > BigDecimal.ONE.intValue ()){
+            for(Account customerAccount : customer.getAccounts ( )){
+                totalCustomerBalance = totalCustomerBalance.add (customerAccount.getBalance ());
+            }
+        }
+        BigDecimal loanAmountApprovedAutomatically = totalCustomerBalance.multiply (relationshipVolumePercentage);
+        if (accountSeekingLoan.getAccountLoanRequest ().getLoanAmount ().compareTo (loanAmountApprovedAutomatically) < BigDecimal.ZERO.intValue ()){
+            decision = LoanRequestStatus.APPROVED;
+        }
+
         return decision;
     }
 

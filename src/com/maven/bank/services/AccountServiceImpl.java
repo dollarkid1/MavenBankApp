@@ -102,15 +102,15 @@ public class AccountServiceImpl implements AccountService{
     }
 
     @Override
-    public BigDecimal withdraw(BigDecimal amount, long accountNumber, String pin) throws MavenBankException {
+    public BigDecimal withdraw(BigDecimal amount, long accountNumber) throws MavenBankException, MavenBankInsufficientFundsException {
         BankTransactionType typeOfTransaction = BankTransactionType.WITHDRAWAL;
         Account account = findAccount (accountNumber);
         validateTransaction (amount, account );
         try{
-            checkForSufficientBalance (amount, account);
+            checkForSufficientBalance (amount, account, BankTransactionType.WITHDRAWAL);
         } catch (MavenBankInsufficientFundsException insufficientFundsException) {
             this.applyForOverdraft (account);
-            throw insufficientFundsException;
+
         }
         BigDecimal newBalance = debitAccount (amount, accountNumber);
 
@@ -135,10 +135,18 @@ public class AccountServiceImpl implements AccountService{
     }
 
     @Override
-    public void addBankTransaction(BankTransaction transaction, Account account) throws MavenBankTransactionException{
-        if (transaction == null){
-            throw  new MavenBankTransactionException ( "No transaction provided!" );
+    public void addBankTransaction(BankTransaction transaction, Account account) throws MavenBankTransactionException, MavenBankException {
+        if (transaction == null || account == null){
+            throw  new MavenBankTransactionException ( "Transaction and account are required to add transaction" );
         }
+
+        if (transaction.getType () ==  BankTransactionType.DEPOSIT){
+            deposit (transaction.getAmount (), account.getAccountNumber ( ));
+
+        }else if (transaction.getType () == BankTransactionType.WITHDRAWAL){
+            withdraw (transaction.getAmount (), account.getAccountNumber ());
+        }
+        account.getTransactions ().add (transaction);
     }
 
     public BigDecimal debitAccount(BigDecimal amount, long accountNumber) throws MavenBankException {
@@ -153,7 +161,7 @@ public class AccountServiceImpl implements AccountService{
     private void validateTransaction(BigDecimal amount, Account account) throws MavenBankException {
 
                 if (amount.compareTo (BigDecimal.ZERO) < 0){
-                    throw new MavenBankException ( "Transaction amount cannot be negative" );
+                    throw new MavenBankTransactionException ( "Transaction amount cannot be negative" );
                 }
 
                 if (account == null){
@@ -162,8 +170,8 @@ public class AccountServiceImpl implements AccountService{
 
     }
 
-    private void checkForSufficientBalance(BigDecimal amount, Account account) throws MavenBankException {
-                if (amount.compareTo (account.getBalance ()) > 0){
+    private void checkForSufficientBalance(BigDecimal amount, Account account, BankTransactionType withdrawal) throws MavenBankException {
+                if (amount.compareTo (account.getBalance ()) > BigDecimal.ZERO.intValue ( )){
                     throw new MavenBankInsufficientFundsException ( "Insufficient Funds" );
                 }
     }

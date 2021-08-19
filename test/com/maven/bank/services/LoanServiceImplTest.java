@@ -102,4 +102,24 @@ class LoanServiceImplTest {
         }
 
     }
+
+    @Test
+    void approveLoanRequestWithLengthOfRelationshipAndTransactionVolume(){
+        try{
+            Account johnSavingsAccount = accountService.findAccount (1000110001);
+            Optional<Customer> optionalCustomer = CustomerRepo.getCustomers ().values ().stream ().findFirst ();
+            Customer john = optionalCustomer.isPresent () ? optionalCustomer.get ( ) : null;
+            assertNotNull (john);
+            john.setRelationshipStartDate (johnSavingsAccount.getStartDate ().minusYears (2));
+            assertEquals (BigDecimal.valueOf (450000), johnSavingsAccount.getBalance ());
+            johnLoanRequest.setLoanAmount (BigDecimal.valueOf (3000000));
+            johnSavingsAccount.setAccountLoanRequest (johnLoanRequest);
+            LoanRequest johnLoanRequest = loanService.approveLoanRequest (johnSavingsAccount, john);
+            assertEquals (LoanRequestStatus.APPROVED, johnLoanRequest.getStatus ());
+
+        }catch (MavenBankException ex){
+            ex.printStackTrace ();
+        }
+
+    }
 }

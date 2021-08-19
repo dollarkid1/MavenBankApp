@@ -6,7 +6,7 @@ import com.maven.bank.datastore.LoanType;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-public class Loan {
+public class Request {
     private BigDecimal loanAmount;
     private LoanType typeOfLoan;
     private LocalDateTime applyDate;

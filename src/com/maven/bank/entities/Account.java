@@ -1,6 +1,5 @@
 package com.maven.bank.entities;
 
-import com.maven.bank.datastore.AccountType;
 import com.maven.bank.exceptions.MavenBankTransactionException;
 
 import java.math.BigDecimal;
@@ -12,7 +11,7 @@ public abstract class Account {
     private BigDecimal balance = BigDecimal.ZERO;
     private String pin;
     private static String accountPin;
-    private Loan accountLoan;
+    private Request accountRequest;
 
 
     public long getAccountNumber() {
@@ -57,11 +56,11 @@ public abstract class Account {
         }
     }
 
-    public Loan getAccountLoan() {
-        return accountLoan;
+    public Request getAccountLoan() {
+        return accountRequest;
     }
 
-    public void setAccountLoan(Loan accountLoan) {
-        this.accountLoan = accountLoan;
+    public void setAccountLoan(Request accountRequest) {
+        this.accountRequest = accountRequest;
     }
 }

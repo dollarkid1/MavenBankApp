@@ -300,4 +300,10 @@ class AccountServiceImplTest {
         }
     }
 
+    @Test
+    void addBankTransactionWithNullTransation(){
+        assertThrows (MavenBankTransactionException.class,
+                () -> accountService.addBankTransaction (null, abuAccount));
+    }
+
 }

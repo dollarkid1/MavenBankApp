@@ -1,13 +1,10 @@
 package com.maven.bank.services;
 
 import com.maven.bank.datastore.LoanRequestStatus;
-import com.maven.bank.entities.Account;
-import com.maven.bank.entities.CurrentAccount;
-import com.maven.bank.entities.Customer;
+import com.maven.bank.entities.*;
 import com.maven.bank.datastore.AccountType;
 import com.maven.bank.datastore.CustomerRepo;
 import com.maven.bank.datastore.BankTransactionType;
-import com.maven.bank.entities.SavingsAccount;
 import com.maven.bank.exceptions.MavenBankException;
 import com.maven.bank.exceptions.MavenBankInsufficientFundsException;
 import com.maven.bank.exceptions.MavenBankTransactionException;
@@ -135,6 +132,13 @@ public class AccountServiceImpl implements AccountService{
         CurrentAccount accountApplyingForLoan = new CurrentAccount (  );
 
         return null;
+    }
+
+    @Override
+    public void addBankTransaction(BankTransaction transaction, Account account) throws MavenBankTransactionException{
+        if (transaction == null){
+            throw  new MavenBankTransactionException ( "No transaction provided!" );
+        }
     }
 
     public BigDecimal debitAccount(BigDecimal amount, long accountNumber) throws MavenBankException {

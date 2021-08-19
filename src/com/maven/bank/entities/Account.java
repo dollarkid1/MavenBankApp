@@ -82,4 +82,6 @@ public abstract class Account {
     public void setTransactions(Set<BankTransaction> transactions) {
         this.transactions = transactions;
     }
+
+
 }

@@ -1,12 +1,12 @@
 package com.maven.bank.services;
 
-import com.maven.bank.datastore.LoanStatus;
+import com.maven.bank.datastore.LoanRequestStatus;
 import com.maven.bank.datastore.LoanType;
 import com.maven.bank.entities.Account;
 import com.maven.bank.entities.Customer;
 import com.maven.bank.datastore.AccountType;
 import com.maven.bank.datastore.CustomerRepo;
-import com.maven.bank.entities.Request;
+import com.maven.bank.entities.LoanRequest;
 import com.maven.bank.exceptions.MavenBankException;
 import com.maven.bank.exceptions.MavenBankInsufficientFundsException;
 import com.maven.bank.exceptions.MavenBankTransactionException;
@@ -280,20 +280,20 @@ class AccountServiceImplTest {
 
     @Test
     void applyForLoan(){
-        Request johnRequest = new Request ();
-        johnRequest.setLoanAmount (BigDecimal.valueOf (5000000));
-        johnRequest.setApplyDate (LocalDateTime.now());
-        johnRequest.getInterestRate (0.1);
-        johnRequest.setStatus (LoanStatus.NEW);
-        johnRequest.setTenor (25);
-        johnRequest.setTypeOfLoan (LoanType.SME);
+        LoanRequest johnLoanRequest = new LoanRequest ();
+        johnLoanRequest.setLoanAmount (BigDecimal.valueOf (5000000));
+        johnLoanRequest.setApplyDate (LocalDateTime.now());
+        johnLoanRequest.getInterestRate (0.1);
+        johnLoanRequest.setStatus (LoanRequestStatus.NEW);
+        johnLoanRequest.setTenor (25);
+        johnLoanRequest.setTypeOfLoan (LoanType.SME);
 
         try{
             Account johnCurrentsAccount = accountService.findAccount (1000110002);
             assertNull (johnCurrentsAccount.getAccountLoan ());
-            johnCurrentsAccount.setAccountLoan (johnRequest);
+            johnCurrentsAccount.setAccountLoan (johnLoanRequest);
             assertNotNull (johnCurrentsAccount.getAccountLoan ());
-            LoanStatus decision = accountService.applyForLoans (johnCurrentsAccount);
+            LoanRequestStatus decision = accountService.applyForLoans (johnCurrentsAccount);
             assertNull (decision);
         } catch (MavenBankException e) {
             e.printStackTrace ( );

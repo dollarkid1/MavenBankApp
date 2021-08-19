@@ -3,6 +3,7 @@ package com.maven.bank.entities;
 import com.maven.bank.exceptions.MavenBankTransactionException;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 public abstract class Account {
     private long accountNumber;
@@ -11,7 +12,8 @@ public abstract class Account {
     private BigDecimal balance = BigDecimal.ZERO;
     private String pin;
     private static String accountPin;
-    private Request accountRequest;
+    private LoanRequest accountLoanRequest;
+    private LocalDateTime startDate;
 
 
     public long getAccountNumber() {
@@ -56,11 +58,19 @@ public abstract class Account {
         }
     }
 
-    public Request getAccountLoan() {
-        return accountRequest;
+    public LoanRequest getAccountLoan() {
+        return accountLoanRequest;
     }
 
-    public void setAccountLoan(Request accountRequest) {
-        this.accountRequest = accountRequest;
+    public void setAccountLoan(LoanRequest accountLoanRequest) {
+        this.accountLoanRequest = accountLoanRequest;
+    }
+
+    public LocalDateTime getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(LocalDateTime startDate) {
+        this.startDate = startDate;
     }
 }

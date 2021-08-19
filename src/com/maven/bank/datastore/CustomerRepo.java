@@ -33,6 +33,7 @@ public class CustomerRepo {
         john.setSurname ("doe");
         john.setPhone ("12345678901");
         Account johnSavingsAccount = new SavingsAccount  (1000110001);
+        john.setRelationshipStartDate (johnSavingsAccount.getStartDate ());
 
         john.getAccounts ().add (johnSavingsAccount);
         Account johnCurrentAccount = new CurrentAccount ( 1000110002, new BigDecimal (50000000));
@@ -47,6 +48,7 @@ public class CustomerRepo {
         jane.setPhone ("90876543211");
 
         Account janeSavingsAccount = new SavingsAccount ( 1000110003 );
+        jane.setRelationshipStartDate (janeSavingsAccount.getStartDate ());
         jane.getAccounts ().add (janeSavingsAccount);
         customers.put (jane.getBvn (), jane);
     }

@@ -1,16 +1,20 @@
 package com.maven.bank.entities;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 public class CurrentAccount extends Account{
-    public CurrentAccount(){}
+    public CurrentAccount(){
+        setStartDate (LocalDateTime.now ());
+    }
 
     public CurrentAccount(long accountNumber){
+        this();
         setAccountNumber(accountNumber);
     }
 
     public CurrentAccount(long accountNumber,  BigDecimal balance) {
-        setAccountNumber (accountNumber);
+        this (accountNumber);
         setBalance (balance);
     }
 }

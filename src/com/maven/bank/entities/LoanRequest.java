@@ -1,19 +1,19 @@
 package com.maven.bank.entities;
 
-import com.maven.bank.datastore.LoanStatus;
+import com.maven.bank.datastore.LoanRequestStatus;
 import com.maven.bank.datastore.LoanType;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-public class Request {
+public class LoanRequest {
     private BigDecimal loanAmount;
     private LoanType typeOfLoan;
     private LocalDateTime applyDate;
     private LocalDateTime startDate;
     private int tenor;
     private double interestRate;
-    private LoanStatus Status;
+    private LoanRequestStatus Status;
 
     public BigDecimal getLoanAmount() {
         return loanAmount;
@@ -63,11 +63,11 @@ public class Request {
         this.interestRate = interestRate;
     }
 
-    public LoanStatus getStatus() {
+    public LoanRequestStatus getStatus() {
         return Status;
     }
 
-    public void setStatus(LoanStatus status) {
+    public void setStatus(LoanRequestStatus status) {
         Status = status;
     }
 }

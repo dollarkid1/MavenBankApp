@@ -1,5 +1,6 @@
 package com.maven.bank.entities;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,12 +11,12 @@ public class Customer {
     private String email;
     private String phone;
     private String password;
+    private LocalDateTime relationshipStartDate;
+    private List<Account> accounts = new ArrayList<> (  );
 
     public String getEmail() {
         return email;
     }
-
-    private List<Account> accounts = new ArrayList<> ();
 
     public long getBvn() {
         return bvn;
@@ -69,10 +70,17 @@ public class Customer {
         return accounts;
     }
 
-    @Override
-    public String toString() {
-        return "Customer{" +
-                "firstName='" + firstName + '\'' +
-                '}';
+    public LocalDateTime getRelationshipStartDate() {
+        return relationshipStartDate;
     }
+
+    public void setRelationshipStartDate(LocalDateTime relationshipStartDate) {
+        this.relationshipStartDate = relationshipStartDate;
+    }
+
+    public void setAccounts(List<Account> accounts) {
+        this.accounts = accounts;
+    }
+
+
 }

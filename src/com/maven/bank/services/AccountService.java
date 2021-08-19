@@ -1,6 +1,6 @@
 package com.maven.bank.services;
 
-import com.maven.bank.datastore.LoanStatus;
+import com.maven.bank.datastore.LoanRequestStatus;
 import com.maven.bank.entities.Account;
 import com.maven.bank.entities.Customer;
 import com.maven.bank.datastore.AccountType;
@@ -8,6 +8,8 @@ import com.maven.bank.exceptions.MavenBankException;
 import com.maven.bank.exceptions.MavenBankInsufficientFundsException;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public interface AccountService {
     public long openAccount(Customer theCustomer, AccountType type) throws MavenBankException;
@@ -26,5 +28,7 @@ public interface AccountService {
 
     public void applyForOverdraft(Account theAccount);
 
-    public LoanStatus applyForLoans(Account theAccount);
+    public LoanRequestStatus applyForLoans(Account theAccount);
+
+    public LocalDateTime openingYear(Account theAccount, LocalDate year);
 }

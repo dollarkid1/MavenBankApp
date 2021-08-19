@@ -1,6 +1,6 @@
 package com.maven.bank.services;
 
-import com.maven.bank.datastore.LoanStatus;
+import com.maven.bank.datastore.LoanRequestStatus;
 import com.maven.bank.entities.Account;
 import com.maven.bank.entities.CurrentAccount;
 import com.maven.bank.entities.Customer;
@@ -13,6 +13,8 @@ import com.maven.bank.exceptions.MavenBankInsufficientFundsException;
 import com.maven.bank.exceptions.MavenBankTransactionException;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class AccountServiceImpl implements AccountService{
     @Override
@@ -124,8 +126,15 @@ public class AccountServiceImpl implements AccountService{
     }
 
     @Override
-    public LoanStatus applyForLoans(Account theAccount) {
+    public LoanRequestStatus applyForLoans(Account theAccount) {
     return null;
+    }
+
+    @Override
+    public LocalDateTime openingYear(Account theAccount, LocalDate year) {
+        CurrentAccount accountApplyingForLoan = new CurrentAccount (  );
+
+        return null;
     }
 
     public BigDecimal debitAccount(BigDecimal amount, long accountNumber) throws MavenBankException {
@@ -166,6 +175,8 @@ public class AccountServiceImpl implements AccountService{
         }
         return accountTypeExists;
     }
+
+
 
 
 }

@@ -290,9 +290,9 @@ class AccountServiceImplTest {
 
         try{
             Account johnCurrentsAccount = accountService.findAccount (1000110002);
-            assertNull (johnCurrentsAccount.getAccountLoan ());
-            johnCurrentsAccount.setAccountLoan (johnLoanRequest);
-            assertNotNull (johnCurrentsAccount.getAccountLoan ());
+            assertNull (johnCurrentsAccount.getAccountLoanRequest ());
+            johnCurrentsAccount.setAccountLoanRequest (johnLoanRequest);
+            assertNotNull (johnCurrentsAccount.getAccountLoanRequest ());
             LoanRequestStatus decision = accountService.applyForLoans (johnCurrentsAccount);
             assertNull (decision);
         } catch (MavenBankException e) {

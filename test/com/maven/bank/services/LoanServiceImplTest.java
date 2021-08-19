@@ -30,7 +30,6 @@ class LoanServiceImplTest {
         accountService = new AccountServiceImpl ( );
         loanService = new LoanServiceImpl ();
         johnLoanRequest = new LoanRequest ();
-        johnLoanRequest.setLoanAmount (BigDecimal.valueOf (9000000));
         johnLoanRequest.setApplyDate (LocalDateTime.now());
         johnLoanRequest.getInterestRate (0.1);
         johnLoanRequest.setStatus (LoanRequestStatus.NEW);
@@ -43,25 +42,26 @@ class LoanServiceImplTest {
     }
 
     @Test
-    void approveLoanWithNullAccount(){
-        assertThrows (MavenBankLoanException.class, () -> loanService.approveLoan (null));
+    void approveLoanRequestWithNullAccount(){
+        assertThrows (MavenBankLoanException.class, () -> loanService.approveLoanRequest (null));
     }
 
     @Test
-    void approveLoanWithNullLoan(){
+    void approveLoanRequestWithNullLoan(){
         CurrentAccount accountWithoutLoan = new CurrentAccount (  );
-        assertThrows (MavenBankLoanException.class, () -> loanService.approveLoan(accountWithoutLoan));
+        assertThrows (MavenBankLoanException.class, () -> loanService.approveLoanRequest (accountWithoutLoan));
     }
 
 
     @Test
-    void approveLoanWithAccountBalance(){
+    void approveLoanRequestWithAccountBalance(){
         try{
             Account johnCurrentAccount = accountService.findAccount (1000110002);
-            assertNull (johnCurrentAccount.getAccountLoan ());
-            johnCurrentAccount.setAccountLoan (johnLoanRequest);
+            assertNull (johnCurrentAccount.getAccountLoanRequest ());
+            johnLoanRequest.setLoanAmount (BigDecimal.valueOf (9000000));
+            johnCurrentAccount.setAccountLoanRequest (johnLoanRequest);
 
-            LoanRequest processedLoanRequest = loanService.approveLoan (johnCurrentAccount);
+            LoanRequest processedLoanRequest = loanService.approveLoanRequest (johnCurrentAccount);
             assertEquals (LoanRequestStatus.APPROVED, processedLoanRequest.getStatus ());
         } catch (MavenBankException e) {
             e.printStackTrace ( );
@@ -70,7 +70,23 @@ class LoanServiceImplTest {
     }
 
     @Test
-    void approveLoanWithLengthOfRelationship(){
+    void approveLoanRequestWithAccountBalanceAndHighLoanRequestAmount(){
+        try{
+            Account johnCurrentAccount = accountService.findAccount (1000110002);
+            assertNull (johnCurrentAccount.getAccountLoanRequest ());
+            johnLoanRequest.setLoanAmount (BigDecimal.valueOf (90000000));
+            johnCurrentAccount.setAccountLoanRequest (johnLoanRequest);
+
+            LoanRequest processedLoanRequest = loanService.approveLoanRequest (johnCurrentAccount);
+            assertEquals (LoanRequestStatus.PENDING, processedLoanRequest.getStatus ());
+        } catch (MavenBankException e) {
+            e.printStackTrace ( );
+        }
+
+    }
+
+    @Test
+    void approveLoanRequestWithLengthOfRelationship(){
         try{
             Account johnSavingsAccount = accountService.findAccount (1000110001);
             Optional<Customer> optionalCustomer = CustomerRepo.getCustomers ().values ().stream ().findFirst ();
@@ -78,7 +94,7 @@ class LoanServiceImplTest {
             assertNotNull (john);
             john.setRelationshipStartDate (johnSavingsAccount.getStartDate ().minusYears (2));
             johnLoanRequest.setLoanAmount (BigDecimal.valueOf (3000000));
-            johnSavingsAccount.setAccountLoan (johnLoanRequest);
+            johnSavingsAccount.setAccountLoanRequest (johnLoanRequest);
 //            johnSavingsAccount.getStartDate ();
 
         }catch (MavenBankException ex){

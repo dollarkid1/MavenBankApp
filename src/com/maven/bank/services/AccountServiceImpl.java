@@ -6,7 +6,7 @@ import com.maven.bank.entities.CurrentAccount;
 import com.maven.bank.entities.Customer;
 import com.maven.bank.datastore.AccountType;
 import com.maven.bank.datastore.CustomerRepo;
-import com.maven.bank.datastore.TransactionType;
+import com.maven.bank.datastore.BankTransactionType;
 import com.maven.bank.entities.SavingsAccount;
 import com.maven.bank.exceptions.MavenBankException;
 import com.maven.bank.exceptions.MavenBankInsufficientFundsException;
@@ -69,7 +69,7 @@ public class AccountServiceImpl implements AccountService{
     @Override
     public BigDecimal deposit(BigDecimal amount, long accountNumber) throws MavenBankException {
         Account account = findAccount (accountNumber);
-        TransactionType typeOfTransaction = TransactionType.DEPOSIT;
+        BankTransactionType typeOfTransaction = BankTransactionType.DEPOSIT;
 
         validateTransaction (amount, account);
 
@@ -106,7 +106,7 @@ public class AccountServiceImpl implements AccountService{
 
     @Override
     public BigDecimal withdraw(BigDecimal amount, long accountNumber, String pin) throws MavenBankException {
-        TransactionType typeOfTransaction = TransactionType.WITHDRAWAL;
+        BankTransactionType typeOfTransaction = BankTransactionType.WITHDRAWAL;
         Account account = findAccount (accountNumber);
         validateTransaction (amount, account );
         try{

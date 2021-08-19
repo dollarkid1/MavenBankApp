@@ -4,15 +4,16 @@ import com.maven.bank.exceptions.MavenBankTransactionException;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 public abstract class Account {
     private long accountNumber;
-//    private AccountType type;
-//    private AccountType typeOfAccount;
     private BigDecimal balance = BigDecimal.ZERO;
     private String pin;
     private static String accountPin;
     private LoanRequest accountLoanRequest;
+    private Set<BankTransaction> transactions = new HashSet<> (  );
     private LocalDateTime startDate;
 
 
@@ -58,11 +59,11 @@ public abstract class Account {
         }
     }
 
-    public LoanRequest getAccountLoan() {
+    public LoanRequest getAccountLoanRequest() {
         return accountLoanRequest;
     }
 
-    public void setAccountLoan(LoanRequest accountLoanRequest) {
+    public void setAccountLoanRequest(LoanRequest accountLoanRequest) {
         this.accountLoanRequest = accountLoanRequest;
     }
 
@@ -72,5 +73,13 @@ public abstract class Account {
 
     public void setStartDate(LocalDateTime startDate) {
         this.startDate = startDate;
+    }
+
+    public Set<BankTransaction> getTransactions() {
+        return transactions;
+    }
+
+    public void setTransactions(Set<BankTransaction> transactions) {
+        this.transactions = transactions;
     }
 }

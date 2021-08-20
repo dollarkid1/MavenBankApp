@@ -11,12 +11,7 @@ import java.math.BigDecimal;
 public class LoanServiceImpl implements LoanService{
     @Override
     public LoanRequest approveLoanRequest(Account accountSeekingLoan) throws MavenBankLoanException {
-        if (accountSeekingLoan == null){
-            throw new MavenBankLoanException ( "An account is required to process loan request" );
-        }
-        if (accountSeekingLoan.getAccountLoanRequest () == null){
-            throw new MavenBankLoanException ( "No loan request provided for processing" );
-        }
+        validateLoanRequest (accountSeekingLoan);
         LoanRequest theLoanRequest = accountSeekingLoan.getAccountLoanRequest ();
         theLoanRequest.setStatus (decideOnLoanRequest (accountSeekingLoan));
 
@@ -25,6 +20,7 @@ public class LoanServiceImpl implements LoanService{
 
     @Override
     public LoanRequest approveLoanRequest(Account accountSeekingLoan, Customer customer) throws MavenBankLoanException {
+        this.validateLoanRequest (customer, accountSeekingLoan);
         LoanRequestStatus decision =  decideOnLoanRequestWithTotalCustomerBalance (customer, accountSeekingLoan);
         LoanRequest theLoanRequest = accountSeekingLoan.getAccountLoanRequest ();
         theLoanRequest.setStatus (decision);
@@ -73,4 +69,20 @@ public class LoanServiceImpl implements LoanService{
         return decision;
     }
 
+
+    private void validateLoanRequest( Account accountSeekingLoan) throws MavenBankLoanException{
+        if (accountSeekingLoan == null){
+            throw new MavenBankLoanException ( "An account is required to process loan request" );
+        }
+        if (accountSeekingLoan.getAccountLoanRequest () == null){
+            throw new MavenBankLoanException ( "No loan request provided for processing" );
+        }
+    }
+
+    private void validateLoanRequest(Customer customer, Account accountSeekingLoan) throws MavenBankLoanException{
+        if (customer == null){
+            throw new MavenBankLoanException ( "An account is required to process loan request" );
+        }
+       this.validateLoanRequest (accountSeekingLoan);
+    }
 }

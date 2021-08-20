@@ -3,10 +3,7 @@ package com.maven.bank.services;
 import com.maven.bank.datastore.CustomerRepo;
 import com.maven.bank.datastore.LoanRequestStatus;
 import com.maven.bank.datastore.LoanType;
-import com.maven.bank.entities.Account;
-import com.maven.bank.entities.CurrentAccount;
-import com.maven.bank.entities.Customer;
-import com.maven.bank.entities.LoanRequest;
+import com.maven.bank.entities.*;
 import com.maven.bank.exceptions.MavenBankException;
 import com.maven.bank.exceptions.MavenBankLoanException;
 import org.junit.jupiter.api.AfterEach;
@@ -49,11 +46,24 @@ class LoanServiceImplTest {
     }
 
     @Test
-    void approveLoanRequestWithNullLoan(){
-        CurrentAccount accountWithoutLoan = new CurrentAccount (  );
-        assertThrows (MavenBankLoanException.class, () -> loanService.approveLoanRequest (accountWithoutLoan));
+    void approveLoanRequestWithNullLoanRequest(){
+        CurrentAccount accountWithoutLoanRequest = new CurrentAccount (  );
+        assertThrows (MavenBankLoanException.class, () -> loanService.approveLoanRequest (accountWithoutLoanRequest));
     }
 
+    @Test
+    void approveLoanRequestWithoutCustomer(){
+
+        assertThrows (MavenBankLoanException.class,
+                () -> loanService.approveLoanRequest (new SavingsAccount(), null ));
+    }
+
+    @Test
+    void approveLoanRequestWithCustomerButWithoutAccount(){
+
+        assertThrows (MavenBankLoanException.class,
+                () -> loanService.approveLoanRequest (null, new Customer() ));
+    }
 
     @Test
     void approveLoanRequestWithAccountBalance(){

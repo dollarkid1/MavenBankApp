@@ -158,10 +158,10 @@ class AccountServiceImplTest {
     void deposit(){
         try{
             Account johnSavingsAccount = accountService.findAccount (1000110001);
-            assertEquals (BigDecimal.ZERO, johnSavingsAccount.getBalance ());
+            assertEquals (BigDecimal.valueOf (450000), johnSavingsAccount.getBalance ());
 
             BigDecimal accountBalance = accountService.deposit (new BigDecimal (50000), 1000110001);
-
+            assertEquals (BigDecimal.valueOf (500000), johnSavingsAccount.getBalance ());
             johnSavingsAccount = accountService.findAccount (1000110001);
             assertEquals (accountBalance, johnSavingsAccount.getBalance ());
         } catch (MavenBankTransactionException ex) {
@@ -189,13 +189,15 @@ class AccountServiceImplTest {
     void depositWithVeryLargeAmount(){
         try{
             Account johnSavingsAccount = accountService.findAccount (1000110001);
-            assertEquals (BigDecimal.ZERO, johnSavingsAccount.getBalance ());
+            BigDecimal originalBalance = johnSavingsAccount.getBalance ();
+            assertEquals (BigDecimal.valueOf (450000), originalBalance);
             BigDecimal depositAmount = new BigDecimal ("10000000000000000000");
 
             BigDecimal accountBalance = accountService.deposit (depositAmount, 1000110001);
 
             johnSavingsAccount = accountService.findAccount (1000110001);
-            assertEquals (depositAmount, johnSavingsAccount.getBalance ());
+            BigDecimal newBalance = originalBalance.add (depositAmount);
+            assertEquals (newBalance, johnSavingsAccount.getBalance ());
         } catch (MavenBankTransactionException ex) {
             ex.printStackTrace ( );
         }catch (MavenBankException ex){
@@ -230,17 +232,14 @@ class AccountServiceImplTest {
     void Withdraw(){
         try{
             Account johnSavingsAccount = accountService.findAccount (1000110001);
-            assertEquals (BigDecimal.ZERO, johnSavingsAccount.getBalance ());
+            assertEquals (BigDecimal.valueOf (450000), johnSavingsAccount.getBalance ());
 
-            BigDecimal accountBalance = accountService.deposit (new BigDecimal (50000), 1000110001);
             johnSavingsAccount = accountService.findAccount (1000110001);
-            assertEquals (accountBalance, johnSavingsAccount.getBalance ());
+            assertEquals (BigDecimal.valueOf (450000), johnSavingsAccount.getBalance ());
 
-
-
-            BigDecimal newAccountBalance = accountService.withdraw(new BigDecimal (5000), 1000110001);
+            BigDecimal newAccountBalance = accountService.withdraw(new BigDecimal (50000), 1000110001);
             johnSavingsAccount = accountService.findAccount (1000110001);
-            assertEquals (new BigDecimal (45000), johnSavingsAccount.getBalance ());
+            assertEquals (new BigDecimal (400000), johnSavingsAccount.getBalance ());
 
         } catch (MavenBankTransactionException ex) {
             ex.printStackTrace ( );
@@ -265,14 +264,15 @@ class AccountServiceImplTest {
     void withdrawAmountHigherThanAccountBalance() throws MavenBankException {
         try{
             Account johnSavingsAccount = accountService.findAccount (1000110001);
-            BigDecimal accountBalance = accountService.deposit (new BigDecimal (50000), 1000110001);
-            johnSavingsAccount = accountService.findAccount (1000110001);
-            assertEquals (accountBalance, johnSavingsAccount.getBalance ());
-        } catch (MavenBankException e) {
+            assertEquals (BigDecimal.valueOf (450000), johnSavingsAccount.getBalance ());
+        }catch (MavenBankInsufficientFundsException ex){
+            ex.printStackTrace ();
+        }
+        catch (MavenBankException e) {
             e.printStackTrace ( );
         }
         assertThrows (MavenBankInsufficientFundsException.class,
-                () -> accountService.withdraw(new BigDecimal (70000), 1000110001));
+                () -> accountService.withdraw(new BigDecimal (700000), 1000110001));
     }
 
     @Test

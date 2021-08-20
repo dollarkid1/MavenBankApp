@@ -110,6 +110,7 @@ public class AccountServiceImpl implements AccountService{
             checkForSufficientBalance (amount, account, BankTransactionType.WITHDRAWAL);
         } catch (MavenBankInsufficientFundsException insufficientFundsException) {
             this.applyForOverdraft (account);
+            throw insufficientFundsException;
 
         }
         BigDecimal newBalance = debitAccount (amount, accountNumber);

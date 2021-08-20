@@ -18,8 +18,10 @@ public class LoanEngineByBalance implements LoanEngine {
                 totalCustomerBalance = totalCustomerBalance.add (customerAccount.getBalance ());
             }
         }
-        BigDecimal loanAmountApprovedAutomatically = totalCustomerBalance.multiply (totalBalancePercentage);
-
+        BigDecimal loanAmountApprovedAutomatically =BigDecimal.ZERO;
+        if (totalCustomerBalance.intValue () > BigDecimal.ZERO.intValue ()){
+           loanAmountApprovedAutomatically = totalCustomerBalance.multiply (totalBalancePercentage);
+        }
         return loanAmountApprovedAutomatically;
     }
 }

@@ -15,27 +15,27 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public interface AccountService {
-    public long openAccount(Customer theCustomer, AccountType type) throws MavenBankException;
+    long openAccount(Customer theCustomer, AccountType type) throws MavenBankException;
 
-    public long openSavingsAccount(Customer theCustomer) throws MavenBankException;
+    long openSavingsAccount(Customer theCustomer) throws MavenBankException;
 
-    public long openCurrentAccount(Customer theCustomer) throws  MavenBankException;
+    long openCurrentAccount(Customer theCustomer) throws  MavenBankException;
 
-    public BigDecimal deposit(BigDecimal amount, long accountNumber) throws MavenBankException;
+    BigDecimal deposit(BigDecimal amount, long accountNumber) throws MavenBankException;
 
-    public Account findAccount(long accountNumber) throws MavenBankException;
+    Account findAccount(long accountNumber) throws MavenBankException;
 
-    public Account findAccount(Customer customer, long accountNumber) throws MavenBankException;
+    Account findAccount(Customer customer, long accountNumber) throws MavenBankException;
 
-    BigDecimal withdraw(BigDecimal amount, long accountNumber) throws MavenBankInsufficientFundsException, MavenBankTransactionException, MavenBankException;
+    BigDecimal withdraw(BigDecimal amount, long accountNumber) throws MavenBankException;
 
-    public void applyForOverdraft(Account theAccount);
+    void applyForOverdraft(Account theAccount);
 
-    public LoanRequestStatus applyForLoans(Account theAccount);
+    LoanRequestStatus applyForLoans(Account theAccount);
 
-    public LocalDateTime openingYear(Account theAccount, LocalDate year);
+    LocalDateTime openingYear(Account theAccount, LocalDate year);
 
-    public void addBankTransaction(BankTransaction transaction, Account account) throws MavenBankException;
+    void addBankTransaction(BankTransaction transaction, Account account) throws MavenBankException;
 
 
 }

@@ -102,7 +102,7 @@ public class AccountServiceImpl implements AccountService{
     }
 
     @Override
-    public BigDecimal withdraw(BigDecimal amount, long accountNumber) throws MavenBankException, MavenBankInsufficientFundsException {
+    public BigDecimal withdraw(BigDecimal amount, long accountNumber) throws MavenBankException {
         BankTransactionType typeOfTransaction = BankTransactionType.WITHDRAWAL;
         Account account = findAccount (accountNumber);
         validateTransaction (amount, account );
@@ -136,7 +136,7 @@ public class AccountServiceImpl implements AccountService{
     }
 
     @Override
-    public void addBankTransaction(BankTransaction transaction, Account account) throws MavenBankTransactionException, MavenBankException {
+    public void addBankTransaction(BankTransaction transaction, Account account) throws MavenBankException {
         if (transaction == null || account == null){
             throw  new MavenBankTransactionException ( "Transaction and account are required to add transaction" );
         }

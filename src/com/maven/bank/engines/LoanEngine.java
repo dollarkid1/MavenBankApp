@@ -7,7 +7,7 @@ import com.maven.bank.exceptions.MavenBankLoanException;
 import java.math.BigDecimal;
 
 public interface LoanEngine {
-    public BigDecimal calculateAmountAutoApproved(Customer customer, Account accountSeekingLoan) throws MavenBankLoanException;
+    BigDecimal calculateAmountAutoApproved(Customer customer, Account accountSeekingLoan) throws MavenBankLoanException;
 
     default void validateLoanRequest(Customer customer, Account accountSeekingLoan) throws MavenBankLoanException {
         if (customer == null){

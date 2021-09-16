@@ -71,7 +71,6 @@ class LoanEngineByRelationshipLengthTest {
             Account johnCurrentAccount = accountService.findAccount (1000110002);
             assertEquals (BigDecimal.valueOf (50000000), johnCurrentAccount.getBalance ());
             johnCurrentAccount.setStartDate (johnCurrentAccount.getStartDate ().minusMonths (3));
-            System.out.println (johnCurrentAccount.getStartDate () );
             johnCurrentAccount.setAccountLoanRequest (johnLoanRequest);
             BigDecimal amountApproved = loanEngine.calculateAmountAutoApproved (john, johnCurrentAccount);
             assertEquals (1009000, amountApproved.intValue ());
@@ -79,6 +78,23 @@ class LoanEngineByRelationshipLengthTest {
             ex.printStackTrace ( );
         }
     }
+
+    @Test
+    void calculateAmountAutoApprovedForAlmostThreeMonths(){
+        try{
+            Account johnSavingsAccount = accountService.findAccount (1000110001);
+            assertEquals (BigDecimal.valueOf (450000), johnSavingsAccount.getBalance ());
+            Account johnCurrentAccount = accountService.findAccount (1000110002);
+            assertEquals (BigDecimal.valueOf (50000000), johnCurrentAccount.getBalance ());
+            johnCurrentAccount.setStartDate (johnCurrentAccount.getStartDate ().minusDays (75));
+            johnCurrentAccount.setAccountLoanRequest (johnLoanRequest);
+            BigDecimal amountApproved = loanEngine.calculateAmountAutoApproved (john, johnCurrentAccount);
+            assertEquals (BigDecimal.ZERO.intValue(), amountApproved.intValue ());
+        } catch (MavenBankException ex) {
+            ex.printStackTrace ( );
+        }
+    }
+
 
     @Test
     void calculateAmountAutoApprovedFromThreeMonthsButLessSixMonths(){

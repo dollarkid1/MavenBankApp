@@ -1,17 +1,17 @@
 package com.maven.bank;
 
-import com.maven.bank.datastore.AccountType;
 import com.maven.bank.datastore.CustomerRepo;
 import com.maven.bank.entities.Account;
 import com.maven.bank.entities.Customer;
 import com.maven.bank.entities.SavingsAccount;
 import com.maven.bank.exceptions.MavenBankTransactionException;
 import com.maven.bank.services.BankService;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 public class AccountTest {
 
@@ -37,7 +37,7 @@ public class AccountTest {
         johnSavingsAccount.setAccountPin ("1470");
         john.getAccounts().add(johnSavingsAccount);
 
-        assertTrue(CustomerRepo.getCustomers().isEmpty ());
+        assertFalse(CustomerRepo.getCustomers().isEmpty ());
 
     }
 

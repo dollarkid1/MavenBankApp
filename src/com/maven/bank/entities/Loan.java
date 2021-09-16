@@ -1,6 +1,5 @@
 package com.maven.bank.entities;
 
-import com.maven.bank.datastore.LoanRequestStatus;
 import com.maven.bank.datastore.LoanStatus;
 import com.maven.bank.datastore.LoanType;
 

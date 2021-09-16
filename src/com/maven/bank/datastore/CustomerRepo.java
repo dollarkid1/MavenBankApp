@@ -1,8 +1,6 @@
 package com.maven.bank.datastore;
 
 import com.maven.bank.entities.*;
-import com.maven.bank.exceptions.MavenBankException;
-import com.maven.bank.services.AccountService;
 import com.maven.bank.services.BankService;
 
 import java.math.BigDecimal;
@@ -18,7 +16,7 @@ public class CustomerRepo {
     }
 
     private void setCustomers(Map<Long, Customer> customers) {
-        this.customers = customers;
+        CustomerRepo.customers = customers;
     }
 
 

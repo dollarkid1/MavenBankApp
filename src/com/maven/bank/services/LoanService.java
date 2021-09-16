@@ -6,6 +6,6 @@ import com.maven.bank.entities.LoanRequest;
 import com.maven.bank.exceptions.MavenBankLoanException;
 
 public interface LoanService {
-    public LoanRequest approveLoanRequest(Account loanAccount) throws MavenBankLoanException;
-    public LoanRequest approveLoanRequest(Account loanService, Customer customer) throws  MavenBankLoanException;
+    LoanRequest approveLoanRequest(Account loanAccount) throws MavenBankLoanException;
+    LoanRequest approveLoanRequest(Account loanService, Customer customer) throws  MavenBankLoanException;
 }

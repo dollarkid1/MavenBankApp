@@ -38,5 +38,9 @@ public class LoanEngineByRelationshipLength implements LoanEngine{
         }
     }
 
+//    private BigDecimal getRelationshipPercentage(int LenthOfRelationship){
+//
+//    }
+
 
 }

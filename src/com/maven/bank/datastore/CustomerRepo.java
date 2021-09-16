@@ -4,7 +4,9 @@ import com.maven.bank.entities.*;
 import com.maven.bank.services.BankService;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.Month;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -32,6 +34,9 @@ public class CustomerRepo {
         john.setFirstName ("john");
         john.setSurname ("doe");
         john.setPhone ("12345678901");
+        LocalDate dob = LocalDate.of(1991, Month.MAY, 12);
+        john.setDateOfBirth(dob);
+
         Account johnSavingsAccount = new SavingsAccount  (1000110001);
         john.setRelationshipStartDate (johnSavingsAccount.getStartDate ());
         BankTransaction initialDeposit = new BankTransaction (BankTransactionType.DEPOSIT, BigDecimal.valueOf (300000));
@@ -61,6 +66,8 @@ public class CustomerRepo {
         jane.setFirstName ("jane");
         jane.setSurname ("blackie");
         jane.setPhone ("90876543211");
+         dob = LocalDate.of(2000, Month.JANUARY, 21);
+        john.setDateOfBirth(dob);
 
         Account janeSavingsAccount = new SavingsAccount ( 1000110003 );
         jane.setRelationshipStartDate (janeSavingsAccount.getStartDate ());

@@ -15,6 +15,10 @@ public class LoanEngineByCustomerAge implements LoanEngine{
         validateLoanRequest(customer, accountSeekingLoan);
         LocalDate today = LocalDate.now();
         long age = ChronoUnit.YEARS.between(customer.getDateOfBirth(), today);
+        if (age<=17 && age >=66){
+            throw new MavenBankLoanException("Loan cannot be approved for given age bracket");
+        }
+
         return loanAmountApprovedAutomatically;
     }
 

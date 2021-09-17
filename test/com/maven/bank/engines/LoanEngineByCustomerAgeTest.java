@@ -78,12 +78,13 @@ public class LoanEngineByCustomerAgeTest {
         }
     }
 
+
     @Test
-    void calculateAmountAutoApprovedForTwentyOne(){
+    void calculateAmountAutoApprovedForTwentySeven(){
         try{
             Account johnCurrentAccount = accountService.findAccount (1000110002);
             johnCurrentAccount.setAccountLoanRequest (johnLoanRequest);
-            LocalDate dob = john.getDateOfBirth().minusYears(9);
+            LocalDate dob = john.getDateOfBirth().minusYears(3);
             john.setDateOfBirth(dob);
             BigDecimal amountApproved = loanEngine.calculateAmountAutoApproved (john, johnCurrentAccount);
             assertEquals (109000, amountApproved.intValue ());
